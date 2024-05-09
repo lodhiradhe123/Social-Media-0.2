@@ -6,13 +6,29 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const db = require("./models/connect");
+const db = require("./models/connect"); 
+
+const passport =require("passport");
+const session =require("express-session");
+const user = require("./models/user");
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+ 
+app.use(session({resave:true,
+  saveUninitialized:true,
+  secret:"lolopopo",
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
+
 
 app.use(logger('dev'));
 app.use(express.json());

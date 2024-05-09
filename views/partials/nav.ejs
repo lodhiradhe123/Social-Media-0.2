@@ -1,5 +1,24 @@
-<nav class="w-csreen  bg-zinc-500 text-white py-5 px-5 flex gap-x-5 justify-center">
-    <a class="font-bold text-3xl" href="/">Home</a>
-    <a class="font-bold text-3xl" href="/register">Register</a>
+<nav class="w-csreen  z-[2] bg-zinc-500 text-white py-3 px-5 flex gap-x-5 justify-between">
+   <!-- <div class="flex gap-x-5">
+    <div><i class="text-3xl ri-home-gear-line"></i>
+        <a class="font-bold text-3xl" href="/">Home</a> </div>
     <a class="font-bold text-3xl" href="/about">About Us</a>
+   </div>
+    <div>
+    <a class="font-bold text-3xl" href="/register">Register</a>
+    <span class="font-bold text-3xl">/</span>
+    <a class="font-bold text-3xl" href="/login">Login</a>
+    <span class="font-bold text-3xl">/</span>
+    <a class="font-bold text-3xl" href="/log-out">log-out</a>
+    </div> -->
+    <%if(user){%>
+        <a href="/profile">Home</a>
+        <a href="/logout-user">logout</a>
+
+    <%}else{%>
+        <a href="/">Home</a>
+        <a href="login">Login</a>
+
+    <%}%>
+    <a href="/about">about-us</a>
 </nav>
