@@ -1,0 +1,32 @@
+
+  
+  <%- include("./partials/header")%>
+
+  <%- include("./partials/nav")%>
+
+
+
+<div  class="ml-[22%]   uppercase drop-shadow-lg  font-bold text-5xl bg-zinc-200 text-center py-[2%] w-[60%] ">
+
+
+  <h1 >update-user </h1>
+  
+  <form action="/update-user/<%=user._id%>" method="post" class="flex-row  ">
+    <input value="<%=user.name%>" name="name" type="text" name="" id=""  placeholder="name" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
+    <input value="<%=user.username%>"  name="username" type="text" name="" id=""  placeholder="username" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
+    <input value="<%=user.number%>"  name="number" type="number" name="" id=""  placeholder="mobile number" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
+    <input value="<%=user.email%>"  name="email" type="email" name="" id=""  placeholder="email" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
+
+<br>
+    <a href="/reset-password/<%=user._id%>" class="text-xl w-1/2  mt-0 ml-[-18%] text-blue-500 lowercase ">reset-password</a>
+    <br>
+     
+      <button class=" hover:bg-red-100 text-xl border-black border-2 rounded bg-green-200 py-2 px-5 mt-[5%]">update </button>
+ 
+  </form>
+  
+  
+
+
+</div>
+  <%- include("./partials/footer")%>

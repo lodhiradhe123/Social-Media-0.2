@@ -7,26 +7,25 @@
 
 
 <div class="overlay bg-zinc-200">
-    <div  class="ml-[29%] py-2 capitalize drop-shadow-lg  font-bold text-5xl bg-zinc-200 text-center  w-[40%] shadow-sm shadow-black">
+    <div  class="ml-[29%] py-2 capitalize drop-shadow-lg  font-bold text-5xl bg-pink-100 rounded-lg text-center  w-[40%] shadow-sm shadow-black">
 
         <div class="w-32 h-32 bg-red-100 rounded-full ml-[39%] overflow-hidden  shadow-sm shadow-black">
             <img src="https://plus.unsplash.com/premium_photo-1694618623649-51733e6001fc?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8" alt="">
         </div>
-          <h1 class="text-3xl font-light">radhe </h1>
-          <h1 class="text-3xl font-light">email id </h1>
-          <a href="/log-out" >log-out</a>
+          <h1 class="text-3xl font-bold"><%=user.name%> </h1>
+          <h1 class="text-3xl font-light"><%=user.email%> </h1>
         </div>
         <!--  -->
         <div class="w-full  p-5  flex flex-wrap gap-x-10">
              <!--  -->
-             <div class="w-[20%]  rounded-lg mt-5  border-[0px] border-black shadow-sm shadow-black p-1">
+             <div class="w-[20%]  rounded-lg mt-5 bg-pink-100  border-[0px] border-black shadow-sm shadow-black p-1">
                 <div class="flex gap-x-3 items-center">
                     <div class=" icon-img w-[15%]  bg-red-500 rounded-full overflow-hidden object-cover">
                         <img src="https://plus.unsplash.com/premium_photo-1694618623649-51733e6001fc?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8" alt="">
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold">username</h1>
-                    <h1 class="text-xl font-light">emailaddress</h1>
+                        <h1 class="text-xl font-bold"><%=user.name%> </h1>
+                    <h1 class="text-xl font-light"><%=user.email%></h1>
                     </div>
                 </div>
                 <!--  -->
@@ -37,8 +36,13 @@
             <i class="ri-chat-3-line text-3xl"></i>
             </div>
             <!--  -->
-        
-            
+        </div>
+        <div class="fixed top-[80%]   w-full h-32 flex items-center justify-center">
+            <div class="hover:bg-zinc-200 hover:text-black  w-[35%] h-12 bg-pink-300 shadow-sm shadow-black rounded-lg flex text-3xl text-white justify-evenly p-1">
+                <i class="ri-search-line"></i>
+                <a href="/log-out"><i class="ri-close-line"></i></a>
+                <a href="/update/<%=user._id%>"><i class="ri-user-3-line"></i></a>
+            </div>
         </div>
 
 </div>
