@@ -91,6 +91,8 @@ router.post("/reset-password/:id", isLoggedIn, async function (req, res, next) {
       );
       req.user.save();
       res.redirect(`/update-user/${req.user._id}`)
+      // res.redirect("/login")
+
   } catch (error) {
       res.send(error);
   }
@@ -101,10 +103,35 @@ router.get("/forgot-email", function(req,res,next){
 })
 
 
+router.post("/forget-email", async function (req, res, next) {
+  try {
+      const User = await user.findOne({ email: req.body.email });
 
-// router.get("/forgotpassword/:id", function(req,res,next){
-//   res.render("forgotpassword",{user:req.user,id:req.params.id});
-// } )
+      if (User) {
+          res.redirect(`/forget-password/${User._id}`);
+      } else {
+          res.redirect("/forgot-email");
+      }
+  } catch (error) {
+      res.send(error);
+  }
+});
+
+
+router.get("/forget-password/:id", function(req,res,next){
+  res.render("forget-password",{user:req.user, id:req.params.id});
+} )
+
+router.post("/forgot-password/:id",async function(req,res,next){
+  try {
+    const User = await user.findById(req.params.id);
+    await User.setPassword(req.body.password);
+    await User.save();
+    res.redirect("/login");
+} catch (error) {
+    res.send(error);
+}
+})
 
 
 
