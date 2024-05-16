@@ -90,7 +90,7 @@ router.post("/reset-password/:id", isLoggedIn, async function (req, res, next) {
           req.body.newpassword
       );
       req.user.save();
-      res.redirect(`/update-user/${req.user._id}`)
+      res.redirect(`/update/${req.user._id}`)
       // res.redirect("/login")
 
   } catch (error) {
