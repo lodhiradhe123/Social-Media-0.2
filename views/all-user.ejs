@@ -1,0 +1,51 @@
+
+  
+  <%- include("./partials/header")%>
+  <%- include("./partials/nav")%>
+  
+  
+ <div class="profile flex flex-wrap gap-x-10">
+
+    <%alluser.forEach((users)=>{%>
+
+        <div class="w-52 ml-5 rounded-lg mt-5 bg-pink-100  border-[0px] border-black shadow-sm shadow-black p-1">
+            <div class="flex gap-x-3 items-center">
+                
+                <div class="ml-5">
+                    <h1 class="text-xl font-bold"> <%=users.name%></h1>
+                <h1 class="text-xl font-light"><%=users.username%></h1>
+                </div>
+            </div>
+            <!--  -->
+            <div class=" w-42 h-42 rounded-full bg-zinc-500 object-cover overflow-hidden shadow-sm shadow-black ">
+                <img src="/images/<%=users.profileimage%>" alt="">
+            </div >
+         <div class="flex justify-between text-2xl px-2">
+            <div>
+               <a href="/login/<%=users._id%>"> <i class="ri-login-box-line"></i></a>
+               </div>
+            <a href="/delete-user/<%=users._id%>"><i class="ri-delete-bin-6-line"></i></a>
+
+         </div>
+        </div>
+    
+    
+    
+     <% })%>
+
+ </div>
+
+
+
+  
+
+
+
+
+
+<script src="/javascripts/script.js"></script>
+
+  <%- include("./partials/footer")%>
+
+
+  

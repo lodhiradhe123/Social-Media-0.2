@@ -4,8 +4,11 @@ var router = express.Router();
 const user = require("../models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-
 passport.use(new LocalStrategy(user.authenticate()));
+
+const fs = require("fs");
+const path = require("path");
+const upload = require("../utils/multer").single("profileimage");
 
 
 function isLoggedIn(req, res, next) {
@@ -28,6 +31,21 @@ router.get('/register', function(req, res, next) {
 });
 
 
+router.post("/image/:id", isLoggedIn, upload, async function (req, res, next) {
+  if (req.user.profilepic !== "default.png") {
+      fs.unlinkSync(
+          path.join(__dirname, "../", "public", "images", req.user.profileimage)
+      );
+  }
+  req.user.profileimage = req.file.filename;
+  await req.user.save();
+  res.redirect(`/update/${req.params.id}`);
+  try {
+  } catch (error) {
+      res.send(err);
+  }
+});
+
 router.post('/register-user', async function(req, res, next) {
 try {
   // const data = new user(req.body);
@@ -44,6 +62,13 @@ try {
 router.get("/login",(req,res)=>{
   res.render("login",{user:req.user})
 })
+
+// 
+router.get("/login/:id",async (req,res)=>{
+  const log=await user.findById(req.params.id)
+  res.render("loginuser",{user:req.user,loged:log})
+})
+// 
 
 router.post(
   "/signin",
@@ -71,11 +96,17 @@ router.get("/log-out",isLoggedIn,(req,res,next)=>{
 router.get("/update/:id",(req,res)=>{
   res.render("update",{user:req.user})
 })
+
 router.post("/update-user/:id",async (req,res)=>{
-  
 await user.findByIdAndUpdate(req.params.id,req.body);
 res.redirect("/profile")
   
+})
+router.get("/delete-user/:id", async function(req,res){
+
+  await user.findByIdAndDelete(req.params.id);
+  res.redirect("/all-users")
+
 })
 
 
@@ -131,6 +162,14 @@ router.post("/forgot-password/:id",async function(req,res,next){
 } catch (error) {
     res.send(error);
 }
+})
+
+
+
+
+router.get("/all-users",async function(req,res){
+ const alluser = await user.find();
+ res.render("all-user",{alluser:alluser, user:req.user}) 
 })
 
 

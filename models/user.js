@@ -3,6 +3,11 @@ const plm = require("passport-local-mongoose")
  
 
  const userModel = mongoose.Schema({
+    
+    profileimage:{
+        type:String,
+        default:"defaultimage.jpg"
+    },
     name:{
         type:String,
         trim:true,

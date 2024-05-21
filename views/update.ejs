@@ -10,8 +10,16 @@
 
 
   <h1 >update-user </h1>
+
+  <!--  -->
+  <form class="hidden form-image" action="/image/<%=user._id%>" method="post" enctype="multipart/form-data">
+    <input type="file" name="profileimage" id="" class="  inputimage  border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2" >
+  </form>
+  <img src="/images/<%=user.profileimage%>" alt="" class=" profileimage  border-black text-xl rounded-full w-32 h-32 ml-[22vw] border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
+  <!--  -->
   
   <form action="/update-user/<%=user._id%>" method="post" class="flex-row  ">
+
     <input value="<%=user.name%>" name="name" type="text" name="" id=""  placeholder="name" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
     <input value="<%=user.username%>"  name="username" type="text" name="" id=""  placeholder="username" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
     <input value="<%=user.number%>"  name="number" type="number" name="" id=""  placeholder="mobile number" class="border-black text-xl rounded-lg border-2 outline-none mt-2 bg-white-100 w-1/2 p-2">
