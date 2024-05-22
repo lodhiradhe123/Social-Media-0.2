@@ -32,7 +32,7 @@ router.get('/register', function(req, res, next) {
 
 
 router.post("/image/:id", isLoggedIn, upload, async function (req, res, next) {
-  if (req.user.profilepic !== "default.png") {
+  if (req.user.profileimage !== "defaultimage.jpg") {
       fs.unlinkSync(
           path.join(__dirname, "../", "public", "images", req.user.profileimage)
       );
