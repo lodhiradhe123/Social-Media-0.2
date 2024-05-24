@@ -30,6 +30,10 @@ const plm = require("passport-local-mongoose")
         type:Number,
         required:[true,"number is required"]
 
+    },
+    resetPasswordToken:{
+        type:Number,
+        default:0,
     }
  },{timestamp:true})
 

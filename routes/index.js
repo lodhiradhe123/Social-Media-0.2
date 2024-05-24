@@ -10,6 +10,8 @@ const fs = require("fs");
 const path = require("path");
 const upload = require("../utils/multer").single("profileimage");
 
+const sendmail = require("../utils/email");
+
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -26,11 +28,9 @@ res.render('index',{user:req.user});
 });
 
 
-router.get('/register', function(req, res, next) {
-  res.render('register',{user:req.user});
-});
 
 
+// 
 router.post("/image/:id", isLoggedIn, upload, async function (req, res, next) {
   if (req.user.profileimage !== "defaultimage.jpg") {
       fs.unlinkSync(
@@ -44,6 +44,10 @@ router.post("/image/:id", isLoggedIn, upload, async function (req, res, next) {
   } catch (error) {
       res.send(err);
   }
+});
+// 
+router.get('/register', function(req, res, next) {
+  res.render('register',{user:req.user});
 });
 
 router.post('/register-user', async function(req, res, next) {
@@ -63,7 +67,7 @@ router.get("/login",(req,res)=>{
   res.render("login",{user:req.user})
 })
 
-// 
+// for alluser 
 router.get("/login/:id",async (req,res)=>{
   const log=await user.findById(req.params.id)
   res.render("loginuser",{user:req.user,loged:log})
@@ -104,7 +108,11 @@ res.redirect("/profile")
 })
 router.get("/delete-user/:id", async function(req,res){
 
-  await user.findByIdAndDelete(req.params.id);
+  const deleted = await user.findByIdAndDelete(req.params.id);
+  if(deleted.profileimage!=="defaultimage.jpg"){
+    fs.unlinkSync(path.join(__dirname,"../","public","images",deleted.profileimage))
+
+  }
   res.redirect("/all-users")
 
 })
@@ -139,7 +147,8 @@ router.post("/forget-email", async function (req, res, next) {
       const User = await user.findOne({ email: req.body.email });
 
       if (User) {
-          res.redirect(`/forget-password/${User._id}`);
+           sendmail(res,req.body.email,User)          
+          // res.redirect(`/forget-password/${User._id}`);
       } else {
           res.redirect("/forgot-email");
       }
@@ -156,16 +165,21 @@ router.get("/forget-password/:id", function(req,res,next){
 router.post("/forgot-password/:id",async function(req,res,next){
   try {
     const User = await user.findById(req.params.id);
-    await User.setPassword(req.body.password);
-    await User.save();
+    // await User.setPassword(req.body.password);
+    // await User.save();
+    if (User.resetPasswordToken == 1) {
+      await User.setPassword(req.body.password);
+      User.resetPasswordToken = 0;
+      await User.save();
+  } else {
+      res.send("Link Expired Try Again!");
+  }
     res.redirect("/login");
 } catch (error) {
     res.send(error);
 }
 })
-
-
-
+// 
 
 router.get("/all-users",async function(req,res){
  const alluser = await user.find();
