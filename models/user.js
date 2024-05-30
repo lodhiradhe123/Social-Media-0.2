@@ -34,7 +34,8 @@ const plm = require("passport-local-mongoose")
     resetPasswordToken:{
         type:Number,
         default:0,
-    }
+    },
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
  },{timestamp:true})
 
  userModel.plugin(plm);

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const post = require("../models/postschema");
 const user = require("../models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -8,7 +9,7 @@ passport.use(new LocalStrategy(user.authenticate()));
 
 const fs = require("fs");
 const path = require("path");
-const upload = require("../utils/multer").single("profileimage");
+const upload = require("../utils/multer")
 
 const sendmail = require("../utils/email");
 
@@ -31,7 +32,7 @@ res.render('index',{user:req.user});
 
 
 // 
-router.post("/image/:id", isLoggedIn, upload, async function (req, res, next) {
+router.post("/image/:id", isLoggedIn, upload.single("profileimage"), async function (req, res, next) {
   if (req.user.profileimage !== "defaultimage.jpg") {
       fs.unlinkSync(
           path.join(__dirname, "../", "public", "images", req.user.profileimage)
@@ -88,7 +89,13 @@ router.get('/about', function(req, res, next) {
   res.render('about',{user:req.user});
 });
 router.get('/profile', isLoggedIn, async function(req, res, next) {
-  res.render('profile',{user:req.user});
+  try {
+    // const posts = await post.find().populate("user"); // it gives us all posts of all users 
+    const posts = await req.user.populate("posts");//it will give us all post of login user;
+  res.render('profile',{user:req.user,posts});
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.get("/log-out",isLoggedIn,(req,res,next)=>{
@@ -109,6 +116,24 @@ res.redirect("/profile")
 router.get("/delete-user/:id", async function(req,res){
 
   const deleted = await user.findByIdAndDelete(req.params.id);
+  //delete all posts
+  
+const userId = req.params.id;
+async function deletePostsByUser(userId) {
+  const allpost = await post.find({user:userId});
+    try {
+        const result = await post.deleteMany({ user: userId });
+        allpost.forEach((post)=>{
+          fs.unlinkSync(path.join(__dirname,"../","public","images", post.media))
+        })
+    } catch (err) {
+        console.error('Error deleting posts: ', err);
+    }
+}
+deletePostsByUser(userId);
+ // 
+
+  
   if(deleted.profileimage!=="defaultimage.jpg"){
     fs.unlinkSync(path.join(__dirname,"../","public","images",deleted.profileimage))
 
@@ -116,7 +141,18 @@ router.get("/delete-user/:id", async function(req,res){
   res.redirect("/all-users")
 
 })
+//delete post
+router.get("/delete-post/:id",isLoggedIn,async function(req,res,next){
+ try {
+  const deletepost = await post.findByIdAndDelete(req.params.id);
+  // console.log(deletepost);
+  fs.unlinkSync(path.join(__dirname,"../","public","images", deletepost.media));
+  res.redirect("/profile");
+ } catch (error) {
+  console.log(error);
+ }
 
+})
 
 router.get("/reset-password/:id", isLoggedIn, function (req, res, next) {
   res.render("resetpassword", { user: req.user });
@@ -187,6 +223,36 @@ router.post("/forgot-password/:id",async function(req,res,next){
 router.get("/all-users",async function(req,res){
  const alluser = await user.find();
  res.render("all-user",{alluser:alluser, user:req.user}) 
+})
+
+// 
+
+router.get("/add-post/:id", function(req,res,next){
+  res.render("add-post",{user:req.user})
+});
+
+router.post("/add-post/:id",isLoggedIn, upload.single("media"), async function(req,res, next){
+  try {
+    const postdata = new post({
+      media:req.file.filename,
+      title:req.body.title,
+      user:req.user._id
+    });
+    req.user.posts.push(postdata._id);
+    await postdata.save();
+    await req.user.save();
+    res.redirect("/profile")
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/timeline",isLoggedIn, async function(req,res,next){
+  try {
+    res.render("timeline", {user:await req.user.populate("posts")})
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 

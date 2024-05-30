@@ -1,0 +1,24 @@
+
+    <div class="posts w-full  p-5  flex flex-wrap gap-x-10">
+        <% user.post.forEach((post)=>{%>
+                <!--  -->
+                <div class="w-[20%]  rounded-lg mt-5 bg-pink-100  border-[0px] border-black shadow-sm shadow-black p-1">
+                   <div class="flex gap-x-1 items-center">
+                       <div class=" icon-img w-12 h-12   rounded-full overflow-hidden flex object-cover">
+                           <img src="/images/<%=user.profileimage%>" alt="">
+                       </div>
+                       <div>
+                           <h1 class="text-xl font-bold"><%=user.name%> </h1>
+                       <h1 class="text-xl font-light"><%=post.title%></h1>
+                       </div>
+                   </div>
+                   <!--  -->
+                   <div class=" w-full h-62 rounded-lg bg-zinc-500 object-cover overflow-hidden shadow-sm shadow-black">
+                       <img src="/images/<%=post.media%>" alt="">
+                   </div>
+                   <i class="ri-heart-3-line text-3xl"></i>
+               <i class="ri-chat-3-line text-3xl"></i>
+               </div>
+        <%}) %>
+            <!--  -->
+        </div>
