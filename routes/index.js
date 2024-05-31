@@ -24,8 +24,11 @@ function isLoggedIn(req, res, next) {
 
 router.get('/', async function(req, res, next) {
  const data = await user.find();
+ //all post on home page
+ const allposts = await post.find().populate("user");
+ console.log(allposts);
 //  res.send(user);
-res.render('index',{user:req.user});
+res.render('index',{user:req.user,allposts:allposts});
 });
 
 
@@ -270,6 +273,26 @@ router.get("/like-post/:postid",isLoggedIn,async function(req,res,next){
       
   await Post.save();
   res.redirect("/profile")
+
+  } catch (error) {
+    res.send(error.message)
+  }
+})
+//home page like feature
+router.get("/like-post/home/:postid",isLoggedIn,async function(req,res,next){
+  try {
+    const Post = await post.findById(req.params.postid);
+    // console.log(Post.likes);
+    // console.log(req.user.id);
+
+    if(Post.likes.includes(req.user._id)){
+      Post.likes=Post.likes.filter((userid)=>{userid != req.user.id})
+    }else{
+      Post.likes.push(req.user.id);
+    }
+      
+  await Post.save();
+  res.redirect("/")
 
   } catch (error) {
     res.send(error.message)

@@ -2,22 +2,74 @@
   
   <%- include("./partials/header")%>
 
-  <%- include("./partials/nav")%>
-
-
-
-<div  class="ml-[22%] mt-[5%] shadow-lg shadow-cyan-500/50  uppercase drop-shadow-lg  font-bold text-5xl bg-zinc-200 text-center py-[10%] w-[60%] justify-center items-center">
-
-  <h1 >This is home page </h1>
   
-<a href="">
-  <button class=" hover:bg-pink-100 text-xl border-black border-2 rounded bg-cyan-500 shadow-lg shadow-cyan-500/100  py-2 px-5 mt-[5%]">Start your journey </button>
-</a>
-<div class="text-3xl mt-5 capitalize text-blue-500 ">
-  <a href="/register">Register</a>
-  <span>/</span>
-  <a href="/login">Login</a>
+  
+  
+  <div class="firstpage p-1  h-screen ">
+    <%- include("./partials/nav")%>
+    
+  <div  class="ml-[22%] mt-[5%] shadow-lg shadow-cyan-500/50  uppercase drop-shadow-lg  font-bold text-5xl bg-zinc-200 text-center py-[10%] w-[60%] justify-center items-center">
+
+
+   <div class=" w-full h-[100%] bg-cyan-500 ">
+    <img src="https://plus.unsplash.com/premium_photo-1669863280125-7789ef60adc0?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D" alt="" class="absolute bg-cover bg-center bg-no-repeat top-0 rounded-lg  z-0 shadow-lg shadow-zinc-500">
+
+   <div class="absolute z-1 ml-40">
+    <h1 >This is home page </h1>
+
+    <a href="">      
+      <button class=" hover:bg-pink-100 text-xl border-black border-2 rounded bg-cyan-500 shadow-lg shadow-cyan-500/100  py-2 px-5 mt-[5%]">Start your journey </button>
+    </a>
+    <div class="text-3xl mt-5 capitalize text-blue-500 ">
+      <a href="/register">Register</a>
+      <span>/</span>
+      <a href="/login">Login</a>
+    </div>
+   </div>
+   </div>
+    
+  </div>
 </div>
 
-</div>
+    <h1 class=" text-3xl font-[foldit] ml-5">All posts __</h1>
+    <div class="posts w-full  p-10  flex flex-wrap gap-x-10 justify-center  shrink-0">
+    <%allposts.forEach((post)=>{%>
+            <!--  -->
+            <div class="w-[20%]  rounded-lg mt-5 bg-pink-100  border-[0px] border-black shadow-sm shadow-black p-1">
+               <div class="flex gap-x-1 items-center">
+                   <div class=" icon-img w-12 h-12   rounded-full overflow-hidden flex object-cover">
+                       <img src="/images/<%=post.user.profileimage%>" alt="">
+                   </div>
+                   <div>
+                       <h1 class="text-xl font-bold"><%=post.user.name%> </h1>
+                   <h1 class="text-xl font-light"><%=post.title%></h1>
+                   </div>
+               </div>
+               <!--  -->
+               <div class=" w-full h-62 rounded-lg bg-zinc-500 object-cover overflow-hidden shadow-sm shadow-black">
+                   <img src="/images/<%=post.media%>" alt="">
+               </div>
+               <div class="flex justify-between text-3xl font-light">
+                <div>
+                  <span class="text-2xl"><%= post.likes.length%></span>
+                  <a href="/like-post/home/<%=post._id%>">
+                    <%if(post.likes.includes(user._id)){%>
+                      <i class="text-red-300 ri-heart-3-fill"></i> 
+                    <%}else{%>
+                      <i class="text-red-300 ri-heart-3-line"></i> 
+                    <%}%>
+                  </a>
+                </div>
+                
+                <div class=" text-sm font-semibold">
+                  <%= post.createdAt.toLocaleTimeString()%>  
+                  <%= post.createdAt.toLocaleDateString()%>
+                </div>
+
+               </div>
+           </div>
+    <%}) %>
+        <!--  -->
+    </div>
+
   <%- include("./partials/footer")%>
