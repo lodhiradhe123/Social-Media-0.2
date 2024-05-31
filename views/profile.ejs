@@ -36,8 +36,14 @@
                    </div>
                    <div class="flex justify-between text-3xl font-light">
                     <div>
-                        <i class="ri-heart-3-line text-3xl"></i>
-                        <i class="ri-chat-3-line text-3xl"></i>
+                        <span class="text-2xl"><%= post.likes.length%></span>
+                      <a href="/like-post/<%=post._id%>">  
+                        <%if(post.likes.includes(user._id)){%>
+                            <i class="text-red-300 ri-heart-3-fill"></i>  </a>
+                        <%}else{%>
+                            <i class="text-red-300 ri-heart-3-line"></i>  </a>
+                        <%}%>
+                    
                     </div>
                     <div>
                         <a href="/delete-post/<%=post._id%>"><i class="ri-delete-bin-line"></i></a>
@@ -49,7 +55,7 @@
         <%}) %>
             <!--  -->
         </div>
-        <div class="fixed top-[80%]   w-full h-32 flex items-center justify-center">
+        <div class="fixed top-[84%]   w-full h-32 flex items-center justify-center">
             <div class="hover:bg-zinc-200 hover:text-black  w-[35%] h-12 bg-pink-300 shadow-sm shadow-black rounded-lg flex text-3xl text-white justify-evenly p-1">
                 <a href="/log-out"><i class="ri-logout-circle-line"></i></i></a>
                 <a href="/add-post/<%=user._id%>"> <i class="ri-add-line"></i></a>

@@ -247,14 +247,34 @@ router.post("/add-post/:id",isLoggedIn, upload.single("media"), async function(r
   }
 });
 
-router.get("/timeline",isLoggedIn, async function(req,res,next){
+// router.get("/timeline",isLoggedIn, async function(req,res,next){
+//   try {
+//     res.render("timeline", {user:await req.user.populate("posts")})
+//   } catch (error) {
+//     res.send(error)
+//   }
+// })
+
+
+router.get("/like-post/:postid",isLoggedIn,async function(req,res,next){
   try {
-    res.render("timeline", {user:await req.user.populate("posts")})
+    const Post = await post.findById(req.params.postid);
+    // console.log(Post.likes);
+    // console.log(req.user.id);
+
+    if(Post.likes.includes(req.user._id)){
+      Post.likes=Post.likes.filter((userid)=>{userid != req.user.id})
+    }else{
+      Post.likes.push(req.user.id);
+    }
+      
+  await Post.save();
+  res.redirect("/profile")
+
   } catch (error) {
-    res.send(error)
+    res.send(error.message)
   }
 })
-
 
 
 module.exports = router;
