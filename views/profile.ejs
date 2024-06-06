@@ -38,7 +38,7 @@
                     <div>
                         <span class="text-2xl"><%= post.likes.length%></span>
                       <a href="/like-post/<%=post._id%>">  
-                        <%if(post.likes.includes(user._id)){%>
+                        <%if(post.likes.includes(user.id)){%>
                             <i class="text-red-300 ri-heart-3-fill"></i>  </a>
                         <%}else{%>
                             <i class="text-red-300 ri-heart-3-line"></i>  </a>

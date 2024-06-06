@@ -50,6 +50,8 @@ router.post("/image/:id", isLoggedIn, upload.single("profileimage"), async funct
   }
 });
 // 
+
+
 router.get('/register', function(req, res, next) {
   res.render('register',{user:req.user});
 });
@@ -299,5 +301,21 @@ router.get("/like-post/home/:postid",isLoggedIn,async function(req,res,next){
   }
 })
 
+router.get("/edit-post/:postid",isLoggedIn, async function(req,res,next){
+  res.render("editpost",{user:req.user,postid:req.params.postid});
+})
+
+router.post("/edit-post/:postid",isLoggedIn,upload.single("media"), async function(req,res,next){
+  const Post = await post.findById(req.params.postid);
+  if(Post.media != req.file.filename){
+    fs.unlinkSync(path.join(__dirname,"../","public","images", Post.media));
+  }
+  Post.media = req.file.filename;
+  Post.title=req.body.title,
+  await Post.save();
+  res.redirect("/profile");
+
+
+})
 
 module.exports = router;

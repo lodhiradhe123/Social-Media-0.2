@@ -12,19 +12,17 @@
 
 
    <div class=" w-full h-[100%] bg-cyan-500 ">
-    <img src="https://plus.unsplash.com/premium_photo-1669863280125-7789ef60adc0?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D" alt="" class="absolute bg-cover bg-center bg-no-repeat top-0 rounded-lg  z-0 shadow-lg shadow-zinc-500">
+    <img src="https://images.unsplash.com/photo-1523461811963-7f1023caeddd?q=80&w=2896&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="absolute bg-center bg-no-repeat top-0 rounded-lg  z-0 shadow-lg shadow-zinc-500 backdrop-opacity-60 opacity-[0.5]">
 
-   <div class="absolute z-1 ml-40">
-    <h1 >This is home page </h1>
-
-    <a href="">      
+   <div class="absolute z-1 ml-40 text-center ml-[36%]">
+    <a href="/register">      
       <button class=" hover:bg-pink-100 text-xl border-black border-2 rounded bg-cyan-500 shadow-lg shadow-cyan-500/100  py-2 px-5 mt-[5%]">Start your journey </button>
     </a>
     <div class="text-3xl mt-5 capitalize text-blue-500 ">
-      <a href="/register">Register</a>
+      <a href="/register" class="hover:text-black">Register</a>
       <span>/</span>
-      <a href="/login">Login</a>
-    </div>
+      <a href="/login" class="hover:text-black">Login</a>
+    </div> 
    </div>
    </div>
     
@@ -53,7 +51,7 @@
                 <div>
                   <span class="text-2xl"><%= post.likes.length%></span>
                   <a href="/like-post/home/<%=post._id%>">
-                    <%if(post.likes.includes(user._id)){%>
+                    <%if(post.likes.includes(user.id)){%>
                       <i class="text-red-300 ri-heart-3-fill"></i> 
                     <%}else{%>
                       <i class="text-red-300 ri-heart-3-line"></i> 
