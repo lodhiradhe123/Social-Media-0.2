@@ -26,7 +26,7 @@ router.get('/', async function(req, res, next) {
  const data = await user.find();
  //all post on home page
  const allposts = await post.find().populate("user");
- console.log(allposts);
+//  console.log(allposts);
 //  res.send(user);
 res.render('index',{user:req.user,allposts:allposts});
 });
